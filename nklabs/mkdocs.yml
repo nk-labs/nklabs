@@ -2,8 +2,7 @@ site_name: nklabs
 site_author: key-er and ram46
 copyright: All right reserved ®
 repo_url: https://github.com
-edit_uri: /ram46/nklabs/blob/master/nklabs/docs
-# repo_url: https://github.com/ram46/nklabs/blob/master/nklabs/docs/index.md
+edit_uri: /nk-labs/nklabs/blob/master/nklabs/docs
 
 nav:
     - 'Tools': 'tools.md'

@@ -1,1 +1,14 @@
-site_name: My Docs
+site_name: nklabs
+site_author: key-er and ram46
+copyright: All right reserved ®
+repo_url: https://github.com
+edit_uri: /ram46/nklabs/blob/master/nklabs/docs
+# repo_url: https://github.com/ram46/nklabs/blob/master/nklabs/docs/index.md
+
+nav:
+    - 'Tools': 'tools.md'
+    - 'Write-ups': 'writeups.md'
+    - User Guide:
+      - 'Writing your docs': 'user-guide/getting-started.md'
+      - 'Styling your docs': 'user-guide/configuration-options.md'
+    - 'About': 'about.md'

@@ -11,3 +11,9 @@ nav:
       - 'Writing your docs': 'user-guide/getting-started.md'
       - 'Styling your docs': 'user-guide/configuration-options.md'
     - 'About': 'about.md'
+
+markdown_extensions:
+  - markdown_include.include:
+      base_path: .
+
+

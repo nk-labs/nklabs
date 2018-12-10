@@ -1,9 +1,6 @@
-### <a href="eg1"> Eg1 </a>
-    [one-line descriptio]
+### <a href="markdown-include"> mkdocs include </a>
+    {!docs/writeups/markdown-include.md!}
 
 
-### <a href="eg2"> Eg2 </a>
-    [one-line descriptio]
-
-
-
+### <a href="mkdocs-themes"> mkdocs themes </a>
+    {!docs/writeups/mkdocs-themes.md!}

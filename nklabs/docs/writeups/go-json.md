@@ -1,6 +1,6 @@
 ## `UseCase`: 
 
-Have a set of predefined json keys say "wantKeys". Task is to check keys in a target object against "wantKeys". If they are same, it means we are good and data is per our expectation. Otherwise, return error. 
+Have a known given set of json keys say wantKeys. wnatKeys := []string{"name", "age"} . Task is to check keys in a target object against "wantKeys". If they are same, it means we are good and data is per our expectation. Otherwise, return error. 
 
 
 

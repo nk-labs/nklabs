@@ -100,6 +100,8 @@
         <li class="main active"><a href="#mkdocs-include"> mkdocs include </a></li>
         <li class="main "><a href="#mkdocs-themes"> mkdocs themes </a></li>
         <li class="main "><a href="#local-dynamodb-docker"> Local Dynamodb (docker) </a></li>
+        <li class="main "><a href="#go-json"> go json </a></li>
+            <li><a href="#reference">Reference</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -354,7 +356,57 @@ var params = {
 <pre><code>docker run -p 8000:8000 -v $(pwd)/local/dynamodb:/data/ amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb -dbPath /data
 </code></pre>
 
-<p>https://forums.aws.amazon.com/message.jspa?messageID=869395</p></div>
+<p>https://forums.aws.amazon.com/message.jspa?messageID=869395</p>
+<h3 id="go-json"><a href="go-json"> go json </a></h3>
+<pre><code>## `UseCase`:
+</code></pre>
+<p>Have a known given set of json keys say wantKeys. wantKeys := []string{"name", "age"} . Task is to check keys in a target object against "wantKeys". If they are same, it means received data is per our expectation, otherwise we got unexpected data.  </p>
+<pre><code>givenKeys := []string{&quot;name&quot;, &quot;age&quot;}
+    var receivedKeys []string
+
+    // Assume the data we are getting is in []byte format. Create a test data. 
+
+    testDataByte := []byte(`{&quot;name&quot;: &quot;john&quot;, &quot;age&quot;:55}`)
+
+
+    // Note: We expect our data may be different, so we can't define struct with fieldnames and unmarshal. 
+    // Let's use empty interface to deal our arbitrary data.
+
+    var data interface{}
+
+    json.Unmarshal(testDataByte, &amp;data)
+
+    // Actual fun starts! 
+    // How do I get all the keys from this data to compare with given keys?
+
+    // Use type assertion to access data's map[string]interface{}
+
+    m := data.(map[string]interface{}) 
+
+    for k, _ := range m {
+      receivedKeys = append(receivedKeys, k)
+    }
+
+    if len(givenKeys) != len(receivedKeys) {
+      fmt.Printf(&quot;got number of keys in response %d, but want %d&quot;, len(receivedKeys), len(givenKeys))
+    }
+
+    sort.Strings(givenKeys)
+    sort.Strings(receivedKeys)
+
+    if sameKeys := reflect.DeepEqual(givenKeys, receivedKeys); !sameKeys {
+          fmt.Printf(&quot;got keys in response %s, but want %s&quot;, receivedKeys, givenKeys)
+    }
+
+    fmt.Println(&quot;Yes receivedKeys and givenKeys are exactly same!&quot;)
+
+</code></pre>
+
+<p>Go Playground link - https://play.golang.org/p/uByO3tR1qs9</p>
+<h4 id="reference">Reference</h4>
+<ul>
+<li>https://blog.golang.org/json-and-go</li>
+</ul></div>
         </div>
 
         <footer class="col-md-12">

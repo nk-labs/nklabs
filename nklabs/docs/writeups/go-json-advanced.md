@@ -44,8 +44,9 @@ givenKeys := []string{"name", "age"}
 
 ```
 
-Go Playground link - https://play.golang.org/p/uByO3tR1qs9
+<font color="olive"> Go Playground link </font>
+[https://play.golang.org/p/uByO3tR1qs9]( https://play.golang.org/p/uByO3tR1qs9)
 
 
-#### Reference 
+<b> Reference </b>
 - https://blog.golang.org/json-and-go

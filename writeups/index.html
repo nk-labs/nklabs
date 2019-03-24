@@ -100,8 +100,8 @@
         <li class="main active"><a href="#mkdocs-include"> mkdocs include </a></li>
         <li class="main "><a href="#mkdocs-themes"> mkdocs themes </a></li>
         <li class="main "><a href="#local-dynamodb-docker"> Local Dynamodb (docker) </a></li>
-        <li class="main "><a href="#go-json"> go json </a></li>
-            <li><a href="#reference">Reference</a></li>
+        <li class="main "><a href="#go-json-advanced"> go json advanced </a></li>
+        <li class="main "><a href="#go-marshal-unmarshal"> go marshal &amp; unmarshal </a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -357,7 +357,7 @@ var params = {
 </code></pre>
 
 <p>https://forums.aws.amazon.com/message.jspa?messageID=869395</p>
-<h3 id="go-json"><a href="go-json"> go json </a></h3>
+<h3 id="go-json-advanced"><a href="go-json-advanced"> go json advanced </a></h3>
 <pre><code>## `UseCase`:
 </code></pre>
 <p>Have a known given set of json keys say wantKeys. wantKeys := []string{"name", "age"} . Task is to check keys in a target object against "wantKeys". If they are same, it means received data is per our expectation, otherwise we got unexpected data.  </p>
@@ -402,11 +402,46 @@ var params = {
 
 </code></pre>
 
-<p>Go Playground link - https://play.golang.org/p/uByO3tR1qs9</p>
-<h4 id="reference">Reference</h4>
+<p><font color="olive"> Go Playground link </font>
+<a href="https://play.golang.org/p/uByO3tR1qs9">https://play.golang.org/p/uByO3tR1qs9</a></p>
+<p><b> Reference </b>
+- https://blog.golang.org/json-and-go</p>
+<h3 id="go-marshal-unmarshal"><a href="go-marshal-unmarshal"> go marshal &amp; unmarshal </a></h3>
+<pre><code>## `JSON Marshalling and Unmarshalling`
+</code></pre>
+<p>In this article we'll see</p>
 <ul>
-<li>https://blog.golang.org/json-and-go</li>
-</ul></div>
+  <li> how to convert string data into bytes (marshal) </li>
+  <li> how to convert bytes into Go struct (unmarshal) </li>
+  <li> how to convert bytes into Go interface (unmarshal) </li>
+</ul>
+
+<h3> data into bytes </h3>
+
+<p>We coverted data into bytes in two ways:
+<ul>
+  <li> One, using byte() function - read  function <code>convertToBytes</code> </li>
+  <li> Other, using json.Marshal() - read function <code>convertToBytesUsingJsonMarshal</code> </li>
+</ul></p>
+<h3> bytes to struct </h3>
+
+<p><ul>
+  <li> first defined a empty struct to hold values <code>jb := Response{}</code> </li>
+  <li> then use json.Unmarshal to deserliaze into this struct <code>json.Unmarshal(&lt;raw1 or raw2&gt;,&amp;jb)</code> </li>
+</ul></p>
+<h3> bytes to interface </h3>
+
+<p><ul>
+  <li> first defined a empty interface to hold values <code>var jbi interface{}</code> </li>
+  <li> then use json.Unmarshal to deserliaze into this interface <code>json.Unmarshal(&lt;raw1 or raw2&gt;,&amp;jbi)</code> </li>
+</ul>
+<br/></p>
+<h5> <b> Q: When to unmarshal in interface instead of struct </b> </h5>
+
+<p><b> A: </b> There could be many use cases. But one we found is field extraction. For example, if you are given a json with certain fields and you want to validate this json, meaning you want to make sure if it has all the required fields. SO first you need to extract all the fields right? And then match against a required fields set. Unlike Javascript we don't have the luxury to get the keys of an object by doing Object.keys() to get all keys :( So what we do? 
+This is covered in <a href="#go-json-advanced">go-json-advanced</a> writeup.</p>
+<p><font color="purple"> Go Playground link </font>
+<a href="https://play.golang.org/p/Fia-l18hWvi">https://play.golang.org/p/Fia-l18hWvi</a></p></div>
         </div>
 
         <footer class="col-md-12">

@@ -7,5 +7,9 @@
 ### <a href="local-dynamodb"> Local Dynamodb (docker) </a>
     {!docs/writeups/local-dynamodb.md!}
 
-### <a href="go-json"> go json </a>
-    {!docs/writeups/go-json.md!}
+### <a href="go-json-advanced"> go json advanced </a>
+    {!docs/writeups/go-json-advanced.md!}
+
+
+### <a href="go-marshal-unmarshal"> go marshal & unmarshal </a>
+    {!docs/writeups/go-marshal-unmarshal.md!}

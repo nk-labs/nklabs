@@ -8,7 +8,7 @@
         <meta name="author" content="key-er and ram46">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>tool3 - nklabs</title>
+        <title>Go json - nklabs</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -47,10 +47,10 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li >
-                                <a href="../">Tools</a>
+                                <a href="../../tools/">Tools</a>
                             </li>
                             <li >
-                                <a href="../../writeups/">Write-ups</a>
+                                <a href="../">Write-ups</a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Guide <b class="caret"></b></a>
@@ -77,7 +77,7 @@
                             </a>
                         </li>
                             <li>
-                                <a href="https://github.com/nk-labs/nklabs/blob/master/nklabs/docs/tools/tool3.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/nk-labs/nklabs/blob/master/nklabs/docs/writeups/go-json.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -87,34 +87,60 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#tool3">tool3</a></li>
+        <li class="main active"><a href="#usecase">UseCase:</a></li>
+            <li><a href="#reference">Reference</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="tool3">tool3</h1>
-<h2> Description </h2>
+<h2 id="usecase"><code>UseCase</code>:</h2>
+<p>Have a known given set of json keys say wantKeys. wantKeys := []string{"name", "age"} . Task is to check keys in a target object against "wantKeys". If they are same, it means received data is per our expectation, otherwise we got unexpected data.  </p>
+<pre><code>givenKeys := []string{&quot;name&quot;, &quot;age&quot;}
+    var receivedKeys []string
 
-<details>
-  <summary> Features</summary>
-  <p> Feature 1 </p>
-  <p> Feature 2 </p>
-  <p> Feature 3 </p>
-</details>
+    // Assume the data we are getting is in []byte format. Create a test data. 
 
-<details>
-  <summary> How to Use </summary>
-  <p> Step 1 </p>
-  <p> Step 2 </p>
-  <p> Spte 3 </p>
-</details>
+    testDataByte := []byte(`{&quot;name&quot;: &quot;john&quot;, &quot;age&quot;:55}`)
 
-<details>
-  <summary> Enhancement </summary>
-  <p> Enhancement 1 </p>
-  <p> Enhancement 2 </p>
-  <p> Enhancement 3 </p>
-</details></div>
+
+    // Note: We expect our data may be different, so we can't define struct with fieldnames and unmarshal. 
+    // Let's use empty interface to deal our arbitrary data.
+
+    var data interface{}
+
+    json.Unmarshal(testDataByte, &amp;data)
+
+    // Actual fun starts! 
+    // How do I get all the keys from this data to compare with given keys?
+
+    // Use type assertion to access data's map[string]interface{}
+
+    m := data.(map[string]interface{}) 
+
+    for k, _ := range m {
+      receivedKeys = append(receivedKeys, k)
+    }
+
+    if len(givenKeys) != len(receivedKeys) {
+      fmt.Printf(&quot;got number of keys in response %d, but want %d&quot;, len(receivedKeys), len(givenKeys))
+    }
+
+    sort.Strings(givenKeys)
+    sort.Strings(receivedKeys)
+
+    if sameKeys := reflect.DeepEqual(givenKeys, receivedKeys); !sameKeys {
+          fmt.Printf(&quot;got keys in response %s, but want %s&quot;, receivedKeys, givenKeys)
+    }
+
+    fmt.Println(&quot;Yes receivedKeys and givenKeys are exactly same!&quot;)
+
+</code></pre>
+
+<p>Go Playground link - https://play.golang.org/p/uByO3tR1qs9</p>
+<h4 id="reference">Reference</h4>
+<ul>
+<li>https://blog.golang.org/json-and-go</li>
+</ul></div>
         </div>
 
         <footer class="col-md-12">

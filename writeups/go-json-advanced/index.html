@@ -8,7 +8,7 @@
         <meta name="author" content="key-er and ram46">
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Markdown include - nklabs</title>
+        <title>Go json advanced - nklabs</title>
         <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -77,7 +77,7 @@
                             </a>
                         </li>
                             <li>
-                                <a href="https://github.com/nk-labs/nklabs/blob/master/nklabs/docs/writeups/markdown-include.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/nk-labs/nklabs/blob/master/nklabs/docs/writeups/go-json-advanced.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -87,29 +87,58 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#usecase">UseCase:</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<p>markdown-include is a pip package that can be use with mkdocs.</p>
-<ul>
-<li>
-<p>Install the python package markdown-include per https://github.com/cmacmackin/markdown-include</p>
-</li>
-<li>
-<p>Add the following lines in your mkdocs. Set the base_path to your choice.</p>
-</li>
-</ul>
-<pre><code>markdown_extensions:
-  - markdown_include.include:
-      base_path: .
+<h2 id="usecase"><code>UseCase</code>:</h2>
+<p>Have a known given set of json keys say wantKeys. wantKeys := []string{"name", "age"} . Task is to check keys in a target object against "wantKeys". If they are same, it means received data is per our expectation, otherwise we got unexpected data.  </p>
+<pre><code>givenKeys := []string{&quot;name&quot;, &quot;age&quot;}
+    var receivedKeys []string
+
+    // Assume the data we are getting is in []byte format. Create a test data. 
+
+    testDataByte := []byte(`{&quot;name&quot;: &quot;john&quot;, &quot;age&quot;:55}`)
+
+
+    // Note: We expect our data may be different, so we can't define struct with fieldnames and unmarshal. 
+    // Let's use empty interface to deal our arbitrary data.
+
+    var data interface{}
+
+    json.Unmarshal(testDataByte, &amp;data)
+
+    // Actual fun starts! 
+    // How do I get all the keys from this data to compare with given keys?
+
+    // Use type assertion to access data's map[string]interface{}
+
+    m := data.(map[string]interface{}) 
+
+    for k, _ := range m {
+      receivedKeys = append(receivedKeys, k)
+    }
+
+    if len(givenKeys) != len(receivedKeys) {
+      fmt.Printf(&quot;got number of keys in response %d, but want %d&quot;, len(receivedKeys), len(givenKeys))
+    }
+
+    sort.Strings(givenKeys)
+    sort.Strings(receivedKeys)
+
+    if sameKeys := reflect.DeepEqual(givenKeys, receivedKeys); !sameKeys {
+          fmt.Printf(&quot;got keys in response %s, but want %s&quot;, receivedKeys, givenKeys)
+    }
+
+    fmt.Println(&quot;Yes receivedKeys and givenKeys are exactly same!&quot;)
+
 </code></pre>
 
-<ul>
-<li>And finally add the contents of one file into another by just doing </li>
-</ul>
-<p>{!yourfile!}</p>
-<p>For real example, check out the this writeup in github</p></div>
+<p><font color="olive"> Go Playground link </font>
+<a href="https://play.golang.org/p/uByO3tR1qs9">https://play.golang.org/p/uByO3tR1qs9</a></p>
+<p><b> Reference </b>
+- https://blog.golang.org/json-and-go</p></div>
         </div>
 
         <footer class="col-md-12">
